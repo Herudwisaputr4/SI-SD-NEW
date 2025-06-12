@@ -36,11 +36,31 @@ return [
     */
 
     'guards' => [
+        'master-admin' => [
+            'driver' => 'session',
+            'provider' => 'master-admin',
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
+        'guru' => [
+            'driver' => 'session',
+            'provider' => 'guru',
+        ],
+        'orang-tua' => [
+            'driver' => 'session',
+            'provider' => 'orang-tua',
+        ],
+        'siswa' => [
+            'driver' => 'session',
+            'provider' => 'siswa',
+        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
-    ],
+    ],  
 
     /*
     |--------------------------------------------------------------------------
@@ -62,13 +82,28 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'master-admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MasterAdmin::class,
+        ],
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'guru' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Guru::class,
+        ],
+        'orang-tua' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\OrangTua::class,
+        ],
+        'siswa' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Siswa::class,
+        ],
     ],
 
     /*
