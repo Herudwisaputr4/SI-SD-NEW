@@ -36,7 +36,7 @@
                             <p>{{ $siswa->jalur_pendaftaran }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold d-none">Tanggal Masuk</label >
+                            <label class="form-label fw-bold">Tanggal Masuk</label >
                             <p>{{ $siswa->tanggal_masuk }}</p>
                         </div>
                     </div>

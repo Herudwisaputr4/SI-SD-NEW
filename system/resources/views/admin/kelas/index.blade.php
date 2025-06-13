@@ -39,12 +39,12 @@
             <table class="table table-striped table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="width: 180px;">Aksi</th>
                         <th>Tingkat</th>
                         <th>Nama Kelas</th>
                         <th>Wali Kelas</th>
                         <th>Tahun Ajaran</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,11 +52,7 @@
                     @if ( Auth::guard('admin')->user()->sekolah_id == $kelas->sekolah_id)
                         <tr>
                             <td>{{ ($kelass->currentPage() - 1) * $kelass->perPage() + $loop->iteration }}</td>
-                            <td>{{ $kelas->tingkatan }}</td>
-                            <td>{{ $kelas->nama_kelas }}</td>
-                            <td>{{ $kelas->waliKelas ? $kelas->waliKelas->username : '-' }}</td>
-                            <td>{{ $kelas->tahunAjaran ? $kelas->tahunAjaran->tahun_ajar : '-' }}</td>
-                            <td>
+                                                        <td>
                                 <a href="{{ url('admin/kelas/show/'.$kelas->id) }}" class="btn btn-info btn-sm mb-1">
                                     <i class="fs-5 ti ti-file-description"></i>
                                 </a>
@@ -71,6 +67,10 @@
                                     </button>
                                 </form>
                             </td>
+                            <td>{{ $kelas->tingkatan }}</td>
+                            <td>{{ $kelas->nama_kelas }}</td>
+                            <td>{{ $kelas->waliKelas ? $kelas->waliKelas->username : '-' }}</td>
+                            <td>{{ $kelas->tahunAjaran ? $kelas->tahunAjaran->tahun_ajar : '-' }}</td>
                         </tr>
                     @endif
                     @endforeach

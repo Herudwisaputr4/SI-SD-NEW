@@ -60,12 +60,12 @@
             <table class="table table-striped table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="width: 180px;">Aksi</th>
                         <th>NISN</th>
                         <th>Nama Siswa</th>
                         <th>Sekolah</th>
                         <th>Alamat</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,10 +73,6 @@
                     @if ( Auth::guard('admin')->user()->sekolah_id == $siswa->sekolah_id)
                     <tr>
                         <td>{{ ($siswas->currentPage() - 1) * $siswas->perPage() + $loop->iteration }}</td>
-                        <td>{{ $siswa->nisn }}</td>
-                        <td>{{ $siswa->nama_siswa }}</td>
-                        <td>{{ $siswa->sekolah->nama_sekolah }}</td>
-                        <td>{{ $siswa->alamat }}</td>
                         <td>
                             <a href="{{ url('admin/siswa/show/'.$siswa->id) }}" class="btn btn-info btn-sm mb-1">
                                 <i class="fs-5 ti ti-file-description"></i>
@@ -91,6 +87,12 @@
                                     <i class="fs-5 ti ti-trash"></i>
                                 </button>
                             </form>
+                        </td>
+                        <td>{{ $siswa->nisn }}</td>
+                        <td>{{ $siswa->nama_siswa }}</td>
+                        <td>{{ $siswa->sekolah->nama_sekolah }}</td>
+                        <td title="{{ $siswa->alamat }}">
+                            {{ Str::limit($siswa->alamat, 30, '...') }}
                         </td>
                     </tr>
                     @endif

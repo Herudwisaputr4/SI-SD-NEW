@@ -58,12 +58,12 @@
             <table class="table table-striped table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="width: 180px;">Aksi</th>
                         <th>Nama</th>
                         <th>NIP</th>
                         <th>Jenis Kelamin</th>
                         <th>Jabatan</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,10 +71,6 @@
                     @if ( Auth::guard('admin')->user()->sekolah_id == $guru->sekolah_id)
                     <tr>
                         <td>{{ ($gurus->currentPage() - 1) * $gurus->perPage() + $loop->iteration }}</td>
-                        <td>{{ $guru->username }}</td>
-                        <td>{{ $guru->nip}}</td>
-                        <td>{{ $guru->jenis_kelamin }}</td>
-                        <td>{{ $guru->jabatan }}</td>
                         <td>
                             <a href="{{ url('admin/guru/show/'.$guru->id) }}" class="btn btn-info btn-sm mb-1">
                                 <i class="fs-5 ti ti-file-description"></i>
@@ -90,6 +86,10 @@
                                 </button>
                             </form>
                         </td>
+                        <td>{{ $guru->username }}</td>
+                        <td>{{ $guru->nip}}</td>
+                        <td>{{ $guru->jenis_kelamin }}</td>
+                        <td>{{ $guru->jabatan }}</td>
                     </tr>
                     @endif
                     @endforeach

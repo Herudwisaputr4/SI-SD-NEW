@@ -39,8 +39,8 @@ class SiswaController extends Controller
     {
         $request->validate([
             'sekolah_id' => 'required|exists:sekolahs,id',
-            'nisn' => 'required|string',
-            'nis' => 'required|string',
+            'nisn' => 'required|string|max:225',
+            'nis' => 'required|string|max:225',
             'nama_siswa' => 'required|string|max:225',
             'jenis_pendaftaran' => 'required|string|in:Peserta Didik Baru,Pindahan',
             'jalur_pendaftaran' => 'required|string|in:Zonasi,Afirmasi,Perpindahan Orang Tua,Prestasi,Mandiri',
@@ -123,48 +123,45 @@ class SiswaController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $rows = $sheet->toArray();
 
-        foreach ($rows as $index => $row) {
-        if ($index == 0) continue; // skip header
-        $data = array_slice($row, 1);
+        $admin = Auth::guard('admin')->user(); // ambil sekolah_id dari admin
 
-         // Validasi jenis kelamin
-            if (isset($row[13]) ){
-                if (strtolower(trim($row[13])) == 'laki-laki') {
-                    $jenis_kelamin = 'Laki-Laki';
-                } elseif (strtolower(trim($row[13])) == 'perempuan') {
-                    $jenis_kelamin = 'Perempuan';
-                } else {
-                    $jenis_kelamin = null;
-                }
-            }
+        foreach ($rows as $index => $row) {
+            if ($index == 0) continue; // header
+
+            // Validasi jenis_kelamin
+            $jenis_kelamin = strtolower(trim($row[11])) == 'laki-laki' ? 'Laki-laki' : 'Perempuan';
+
+            // Validasi agama
+            $agama = in_array($row[12], ['Islam', 'Katolik', 'Protestan', 'Hindu', 'Buddha', 'Khonghucu']) ? $row[12] : 'Islam';
 
             Siswa::create([
-                'nisn' => $row[0],
-                'nis' => $row[1],
-                'nama_siswa' => $row[2],
-                'jalur_pendaftaran' => in_array($row[3], ['Zonasi', 'Afirmasi', 'Perpindahan Orang Tua', 'Prestasi', 'Mandiri']) ? $row[3] : 'Zonasi',
-                'jenis_pendaftaran' => $row[4] == 'Peserta Didik Baru' ? 'Peserta Didik Baru' : 'Pindahan',
-                'tanggal_masuk' => $row[5],
-                'status' => $row[6],
-                'kebutuhan_khusus' => $row[7] == 'Iya' ? 'Iya' : 'Tidak',
-                'email' => $row[8],
-                'no_kk' => $row[9],
-                'nik' => $row[10],
-                'jenis_kelamin' => $row[11]=='Laki-Laki' ? 'Laki-Laki' : 'Perempuan',
-                'agama' => in_array ($row[12],['Islam', 'Kristen', 'Katolik', 'Buddha', 'Hindu', 'Konghuchu']) ? $row[12] : 'Lainnya',
-                'tempat_lahir' => $row[13],
-                'tanggal_lahir' => $row[14],
-                'alamat' => $row[15],
-                'rt' => $row[16],
-                'rw' => $row[17],
-                'dusun' => $row[18],
-                'desa_kelurahan' => $row[19],
-                'provinsi' => $row[20],
-                'kabupaten' => $row[21],
-                'kecamatan' => $row[22],
-                'telepon' => $row[23],
-                'password' => bcrypt($row[24]),
-                'foto_siswa' => $row[25], // pastikan file sudah tersedia, atau bisa diupload manual nanti
+                'sekolah_id'         => $admin->sekolah_id,
+                'nisn'               => $row[0],
+                'nis'                => $row[1],
+                'nama_siswa'         => $row[2],
+                'jalur_pendaftaran'  => in_array($row[3], ['Zonasi', 'Afirmasi', 'Perpindahan Orang Tua', 'Prestasi', 'Mandiri']) ? $row[3] : 'Zonasi',
+                'jenis_pendaftaran'  => $row[4] == 'Peserta Didik Baru' ? 'Peserta Didik Baru' : 'Pindahan',
+                'tanggal_masuk'      => $row[5],
+                'status'             => $row[6] == 'Aktif' ? 'Aktif' : 'Tidak Aktif',
+                'kebutuhan_khusus'   => $row[7] == 'Iya' ? 'Iya' : 'Tidak',
+                'email'              => $row[8],
+                'no_kk'              => $row[9],
+                'nik'                => $row[10],
+                'jenis_kelamin'      => $jenis_kelamin,
+                'agama'              => $agama,
+                'tempat_lahir'       => $row[13],
+                'tanggal_lahir'      => $row[14],
+                'alamat'             => $row[15],
+                'rt'                 => $row[16],
+                'rw'                 => $row[17],
+                'dusun'              => $row[18],
+                'desa_kelurahan'     => $row[19],
+                'provinsi'           => $row[20],
+                'kabupaten'          => $row[21],
+                'kecamatan'          => $row[22],
+                'telepon'            => $row[23],
+                'password'           => bcrypt($row[24]),
+                'foto_siswa'         => $row[25] ?? null, // Kosongkan jika tidak ada
             ]);
         }
 
@@ -199,8 +196,8 @@ class SiswaController extends Controller
         $siswa = Siswa::findOrFail($id);
 
         $request->validate([
-            'nisn' => 'required|string',
-            'nis' => 'required|string',
+            'nisn' => 'required|string|max:225',
+            'nis' => 'required|string|max:225',
             'nama_siswa' => 'required|string|max:225',
             'jenis_pendaftaran' => 'required|string|in:Peserta Didik Baru,Pindahan',
             'jalur_pendaftaran' => 'required|string|in:Zonasi,Afirmasi,Perpindahan Orang Tua,Prestasi,Mandiri',

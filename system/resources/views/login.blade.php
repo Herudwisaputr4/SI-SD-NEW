@@ -22,7 +22,7 @@
                                 <!-- Logo -->
                                 <a href="{{ url('login') }}"
                                     class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{ url('public') }}/assets/images/logos/logoktp.jpg" width="180" alt="Logo">
+                                    <img src="{{ url('public') }}/assets/images/logos/logosisd.png" width="180" alt="Logo">
                                 </a>
 
                                 <!-- Copywriting -->

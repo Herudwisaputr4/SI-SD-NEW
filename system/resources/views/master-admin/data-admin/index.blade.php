@@ -24,24 +24,18 @@
             <table class="table table-striped table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="width: 180px;">Aksi</th>
+                        <th>Asal Sekolah</th>
                         <th>Foto Profil</th>
                         <th>Nama</th>
                         <th>Nomor HP</th>
-                        <th>Asal Sekolah</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($admins as $index => $admin)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>
-                            <img src="{{ url('public/app/data-admin/' . $admin->foto_profil) }}" alt="Foto Profil" width="80" height="80" class="img-thumbnail">
-                        </td>
-                        <td>{{ $admin->username }}</td>
-                        <td>{{ $admin->phone }}</td>
-                        <td>{{ $admin->sekolahs ? $admin->sekolahs->nama_sekolah: "Belum Ditambahkan" }}</td>
                         <td>
                             <a href="{{ url('master-admin/data-admin/show/'.$admin->id) }}" class="btn btn-info btn-sm mb-1">
                                 <i class="fs-5 ti ti-file-description"></i>
@@ -57,6 +51,19 @@
                                 </button>
                             </form>
                         </td>
+                        <td>{{ $admin->sekolahs ? $admin->sekolahs->nama_sekolah: "Belum Ditambahkan" }}</td>
+                        <td class="text-center align-middle">
+                            <div class="mx-auto" style="width: 70px;">
+                                <div class="ratio ratio-1x1">
+                                    <img src="{{ url('public/app/data-admin/' . $admin->foto_profil) }}"
+                                        alt="Foto Profil"
+                                        class="img-fluid rounded border"
+                                        style="object-fit: cover;" />
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ $admin->username }}</td>
+                        <td>{{ $admin->phone }}</td>
                     </tr>
                     @empty
                     <tr>

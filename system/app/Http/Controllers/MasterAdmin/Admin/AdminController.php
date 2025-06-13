@@ -17,8 +17,7 @@ class AdminController extends Controller
         ->when($search, function ($query, $search) {
             $query
                 ->where('username', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
-                ->orWhere('asal_sekolah', 'like', '%' . $search . '%');
+                ->orWhere('email', 'like', '%' . $search . '%');
         })->paginate(10);
 
         return view('master-admin.data-admin.index', compact('admins'));

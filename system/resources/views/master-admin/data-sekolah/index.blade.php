@@ -24,26 +24,19 @@
             <table class="table table-striped table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="width: 180px;">Aksi</th>
                         <th>Logo Sekolah</th>
                         <th>Nama Sekolah</th>
                         <th>NPSN</th>
                         <th>Kepala Sekolah</th>
                         <th>Alamat</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($sekolahs as $index => $sekolah)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>
-                            <img src="{{ url('public/app/data-sekolah/' . $sekolah->logo_sekolah) }}" alt="Foto Sekolah" width="80" height="80" class="img-thumbnail">
-                        </td>
-                        <td>{{ $sekolah->nama_sekolah }}</td>
-                        <td>{{ $sekolah->npsn }}</td>
-                        <td>{{ $sekolah->kepala_sekolah }}</td>
-                        <td>{{ $sekolah->alamat_lengkap }}</td>
                         <td>
                             <a href="{{ url('master-admin/data-sekolah/show/'.$sekolah->id) }}" class="btn btn-info btn-sm mb-1">
                                 <i class="fs-5 ti ti-file-description"></i>
@@ -58,6 +51,15 @@
                                     <i class="fs-5 ti ti-trash"></i>
                                 </button>
                             </form>
+                        </td>
+                        <td>
+                            <img src="{{ url('public/app/data-sekolah/' . $sekolah->logo_sekolah) }}" alt="Foto Sekolah" width="80" height="80" class="img-thumbnail">
+                        </td>
+                        <td>{{ $sekolah->nama_sekolah }}</td>
+                        <td>{{ $sekolah->npsn }}</td>
+                        <td>{{ $sekolah->kepala_sekolah }}</td>
+                        <td title="{{ $sekolah->alamat_lengkap }}">
+                            {{ Str::limit($sekolah->alamat_lengkap, 30, '...') }}
                         </td>
                     </tr>
                     @empty

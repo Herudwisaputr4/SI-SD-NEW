@@ -2,8 +2,8 @@
     <!-- Sidebar scroll-->
     <div>
       <div class="brand-logo d-flex align-items-center justify-content-between">
-        <a href="/index.html" class="text-nowrap logo-img">
-          <img src="{{ url('public') }}/assets/images/logos/logoktp.jpg" width="100" alt="" />
+        <a href="/index.html" class="d-flex align-items-center text-decoration-none">
+          <img src="{{ url('public') }}/assets/images/logos/logosisd.png" width="100" alt="Logo SI-SD" />
         </a>
         <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
           <i class="ti ti-x fs-8"></i>

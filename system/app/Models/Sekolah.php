@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Sekolah extends Model
 {
     protected $table = 'sekolahs';
-    protected $keyType ='integer';
     public $incrementing = false;
     protected $fillable = [
         'nama_sekolah',

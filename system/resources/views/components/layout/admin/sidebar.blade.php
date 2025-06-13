@@ -2,8 +2,8 @@
     <!-- Sidebar scroll-->
     <div>
       <div class="brand-logo d-flex align-items-center justify-content-between">
-        <a href="./index.html" class="text-nowrap logo-img">
-          <img src="{{ url('public') }}/assets/images/logos/dark-logo.svg" width="180" alt="" />
+        <a href="/index.html" class="d-flex align-items-center text-decoration-none">
+          <img src="{{ url('public') }}/assets/images/logos/logosisd.png" width="100" alt="Logo SI-SD" />
         </a>
         <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
           <i class="ti ti-x fs-8"></i>
@@ -37,11 +37,11 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('admin/kelas') }}' aria-expanded="false">
+            <a class="sidebar-link" href='{{ url('admin/guru') }}' aria-expanded="false">
               <span>
-                <i class="ti ti-chalkboard"></i>
+                <i class="ti ti-user-check"></i>
               </span>
-              <span class="hide-menu">Kelas</span>
+              <span class="hide-menu">Data Guru</span>
             </a>
           </li>
           <li class="sidebar-item">
@@ -53,11 +53,11 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('admin/guru') }}' aria-expanded="false">
+            <a class="sidebar-link" href='{{ url('admin/kelas') }}' aria-expanded="false">
               <span>
-                <i class="ti ti-user-check"></i>
+                <i class="ti ti-chalkboard"></i>
               </span>
-              <span class="hide-menu">Data Guru</span>
+              <span class="hide-menu">Kelas</span>
             </a>
           </li>
         </ul>

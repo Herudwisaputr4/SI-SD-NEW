@@ -4,7 +4,7 @@
             @foreach ($errors->all() as $key => $message)
                 <div class="alert alert-danger">{{ $message }}</div>
             @endforeach
-        @endif
+        @endif
         <h4 class="mb-4">Tambah Data Admin</h4>
         <form action="{{ url('master-admin/data-admin') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -41,7 +41,7 @@
                                         <option value="{{$sekolah->id}}">{{$sekolah->nama_sekolah}}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div>
                             <div class="mb-3">
                                 <label for="foto_profil" class="form-label">Foto Profil</label>
                                 <input type="file" name="foto_profil" id="foto_profil" class="form-control" required

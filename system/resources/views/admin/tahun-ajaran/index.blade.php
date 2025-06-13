@@ -37,11 +37,11 @@
             <table class="table table-striped table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="width: 180px;">Aksi</th>
                         <th>Tahun Ajaran</th>
                         <th>Deskripsi</th>
                         <th>Status</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,16 +49,7 @@
                     @if ( Auth::guard('admin')->user()->sekolah_id == $tahunajaran->sekolah_id)
                         <tr>
                             <td>{{ ($tahun_ajarans->currentPage() - 1) * $tahun_ajarans->perPage() + $loop->iteration }}</td>
-                            <td>{{ $tahunajaran->tahun_ajar }}</td>
-                            <td>{{ $tahunajaran->deskripsi }}</td>
-                            <td>
-                                @if ($tahunajaran->status === 'aktif')
-                                    <span class="badge bg-success text-white">{{ ucfirst($tahunajaran->status) }}</span>
-                                @else
-                                    <span class="badge bg-danger text-white">{{ ucfirst($tahunajaran->status) }}</span>
-                                @endif
-                            </td>
-                            <td>
+                                                        <td>
                                 <a href="{{ url('admin/tahun-ajaran/show/'.$tahunajaran->id) }}" class="btn btn-info btn-sm mb-1">
                                     <i class="fs-5 ti ti-file-description"></i>
                                 </a>
@@ -72,6 +63,15 @@
                                         <i class="fs-5 ti ti-trash"></i>
                                     </button>
                                 </form>
+                            </td>
+                            <td>{{ $tahunajaran->tahun_ajar }}</td>
+                            <td>{{ $tahunajaran->deskripsi }}</td>
+                            <td>
+                                @if ($tahunajaran->status === 'aktif')
+                                    <span class="badge bg-success text-white">{{ ucfirst($tahunajaran->status) }}</span>
+                                @else
+                                    <span class="badge bg-danger text-white">{{ ucfirst($tahunajaran->status) }}</span>
+                                @endif
                             </td>
                         </tr>
                     @endif

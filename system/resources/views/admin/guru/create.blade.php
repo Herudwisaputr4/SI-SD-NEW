@@ -12,7 +12,7 @@
                 </ul>
             </div>
         @endif
-        
+
         <form action="{{ url('admin/guru') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method("POST")
