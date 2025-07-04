@@ -35,7 +35,7 @@
                 <tbody>
                     @forelse($admins as $index => $admin)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ ($admins->currentPage() - 1) * $admins->perPage() + $loop->iteration }}</td>
                         <td>
                             <a href="{{ url('master-admin/data-admin/show/'.$admin->id) }}" class="btn btn-info btn-sm mb-1">
                                 <i class="fs-5 ti ti-file-description"></i>
@@ -74,6 +74,17 @@
             </table>
         </div>
     </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+        <div class="mb-2 mb-md-0">
+            <span>Menampilkan {{ $admins->firstItem() }} sampai {{ $admins->lastItem() }} dari
+                {{ $admins->total() }} data</span>
+        </div>
+        <div>
+            {{ $admins->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
 </x-master-admin>
 
 <!-- Include SweetAlert2 -->

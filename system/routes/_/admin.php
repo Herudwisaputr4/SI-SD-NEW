@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Guru\GuruController;
 use App\Http\Controllers\Admin\TahunAjaran\TahunAjaranController;
 use App\Http\Controllers\Admin\Kelas\KelasController;
+use App\Http\Controllers\Admin\Mapel\MapelController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'dashboard']);
@@ -48,3 +49,11 @@ Route::get('kelas/show/{id}', [KelasController::class, 'show'])->name('admin');
 Route::get('kelas/edit/{id}', [KelasController::class, 'edit'])->name('admin');
 Route::put('kelas/{id}', [KelasController::class, 'update'])->name('admin');
 Route::delete('kelas/destroy/{id}', [KelasController::class, 'destroy'])->name('admin');
+
+Route::get('mapel', [MapelController::class, 'index'])->name('admin');
+Route::get('mapel/create', [MapelController::class, 'create'])->name('admin');
+Route::post('mapel', [MapelController::class, 'store'])->name('admin');
+Route::get('mapel/show/{id}', [MapelController::class, 'show'])->name('admin');
+Route::get('mapel/edit/{id}', [MapelController::class, 'edit'])->name('admin');
+Route::put('mapel/{id}', [MapelController::class, 'update'])->name('admin');
+Route::delete('mapel/destroy/{id}', [MapelController::class, 'destroy'])->name('admin');

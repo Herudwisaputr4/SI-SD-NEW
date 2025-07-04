@@ -7,6 +7,7 @@
   <title>Ketapang Cerdas SI-SD</title>
   <link rel="shortcut icon" type="image/png" href="{{ url('public') }}/assets/images/logos/logosisd.png" />
   <link rel="stylesheet" href="{{ url('public') }}/assets/css/styles.min.css" />
+
 </head>
 
 <body>
@@ -28,6 +29,7 @@
       <x.layout.admin.footer/>
     </div>
   </div>
+  
   <script src="{{ url('public') }}/assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="{{ url('public') }}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ url('public') }}/assets/js/sidebarmenu.js"></script>
@@ -35,6 +37,7 @@
   <script src="{{ url('public') }}/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="{{ url('public') }}/assets/libs/simplebar/dist/simplebar.js"></script>
   <script src="{{ url('public') }}/assets/js/dashboard.js"></script>
+  @stack('scripts')
 </body>
 
 </html>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Kelas extends Model
 {
@@ -15,6 +16,14 @@ class Kelas extends Model
         'guru_id',
         'tahun_ajaran_id',
     ];
+
+    // App\Models\Kelas.php
+    public function siswa(): BelongsToMany
+    {
+        return $this->belongsToMany(Siswa::class, 'kelas_siswa_pivots')
+                    ->using(KelasSiswaPivot::class)
+                    ->withTimestamps();
+    }
 
     public function waliKelas()
     {

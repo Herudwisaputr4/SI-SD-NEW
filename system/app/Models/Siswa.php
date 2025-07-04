@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -50,6 +51,13 @@ class Siswa extends Authenticatable
         });
     }
     
+    // App\Models\Siswa.php
+    public function siswa(): BelongsToMany
+    {
+        return $this->belongsToMany(Siswa::class, 'kelas_siswa_pivots')
+                    ->using(KelasSiswaPivot::class);
+    }
+
     public function sekolah()
     {
         return $this->belongsTo(Sekolah::class, 'sekolah_id');

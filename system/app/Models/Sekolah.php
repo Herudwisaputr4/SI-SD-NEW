@@ -46,7 +46,7 @@ class Sekolah extends Model
         return $this->belongsTo(Admin::class, 'id');
     }
 
-        public function guru()
+    public function guru()
     {
         return $this->hasMany(Guru::class, 'sekolah_id');
     }
@@ -61,8 +61,13 @@ class Sekolah extends Model
         return $this->hasMany(Siswa::class, 'id');
     }
 
-        public function tahunAjaran()
+    public function tahunAjaran()
     {
         return $this->hasMany(TahunAjaran::class, 'id');
+    }
+
+    public function mapels()
+    {
+        return $this->hasMany(Mapel::class, 'sekolah_id');
     }
 }

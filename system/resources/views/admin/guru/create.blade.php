@@ -1,7 +1,6 @@
 <x-admin>
     <div class="container-fluid">
         <h4 class="mb-4">Tambah Data Guru</h4>
-
         <!-- Tampilkan pesan error jika ada -->
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -156,7 +155,7 @@
             </div>
             <div class="d-flex gap-2">
                 <a href="{{ url('admin/guru') }}" class="btn btn-outline-secondary">
-                    <i class="ti ti-arrow-left"></i> Back
+                    <i class="ti ti-arrow-left"></i> Kembali
                 </a>
                 <button type="submit" class="btn btn-success">
                     <i class="ti ti-check"></i> Simpan Data

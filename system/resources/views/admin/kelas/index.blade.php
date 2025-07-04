@@ -77,8 +77,18 @@
                 </tbody>
             </table>
         </div>
-        <div class="mt-3">{{ $kelass->links() }}</div>
     </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+        <div class="mb-2 mb-md-0">
+            <span>Menampilkan {{ $kelass->firstItem() }} sampai {{ $kelass->lastItem() }} dari
+                {{ $kelass->total() }} data</span>
+        </div>
+        <div>
+            {{ $kelass->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
 </x-admin>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

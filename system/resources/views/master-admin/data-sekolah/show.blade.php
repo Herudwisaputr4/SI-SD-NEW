@@ -119,25 +119,35 @@
                             <label class="form-label fw-bold">Ruang TU</label>
                             <p>{{ $sekolah->ruang_tu }}</p>
                         </div>
+                        <!-- Ruang Konseling -->
                         <div class="mb-3">
                             <label class="form-label fw-bold">Ruang Konseling</label>
                             <p>{{ $sekolah->ruang_konseling }}</p>
                         </div>
+                        <!-- Logo Sekolah -->
                         <div class="mb-4">
-                            @if ($sekolah->logo_sekolah)
-                                <img src="{{ url('public/app/data-sekolah/' . $sekolah->logo_sekolah) }}" 
-                                    alt="Logo Sekolah" class="img-fluid rounded" style="max-width: 120px;">
-                            @else
-                                <p>Logo Sekolah tidak tersedia.</p>
-                            @endif
+                            <div class="text-center">
+                                <label class="form-label fw-bold d-block">Logo Sekolah</label>
+                                @if ($sekolah->logo_sekolah)
+                                    <img src="{{ url('public/app/data-sekolah/' . $sekolah->logo_sekolah) }}" 
+                                        alt="Logo Sekolah" class="img-fluid rounded" style="max-width: 120px;">
+                                @else
+                                    <p>Logo Sekolah tidak tersedia.</p>
+                                @endif
+                            </div>
                         </div>
+
+                        <!-- Foto Sekolah -->
                         <div class="mb-4">
-                            @if ($sekolah->foto_sekolah)
-                                <img src="{{ url('public/app/data-sekolah/' . $sekolah->foto_sekolah) }}" 
-                                    alt="Foto Sekolah" class="img-fluid rounded" style="max-width: 220px;">
-                            @else
-                                <p>Foto Sekolah tidak tersedia.</p>
-                            @endif
+                            <div class="text-center">
+                                <label class="form-label fw-bold d-block">Foto Sekolah</label>
+                                @if ($sekolah->foto_sekolah)
+                                    <img src="{{ url('public/app/data-sekolah/' . $sekolah->foto_sekolah) }}" 
+                                        alt="Foto Sekolah" class="img-fluid rounded" style="max-width: 220px;">
+                                @else
+                                    <p>Foto Sekolah tidak tersedia.</p>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

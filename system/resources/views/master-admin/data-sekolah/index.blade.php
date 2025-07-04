@@ -36,7 +36,7 @@
                 <tbody>
                     @forelse($sekolahs as $index => $sekolah)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ ($sekolahs->currentPage() - 1) * $sekolahs->perPage() + $loop->iteration }}</td>
                         <td>
                             <a href="{{ url('master-admin/data-sekolah/show/'.$sekolah->id) }}" class="btn btn-info btn-sm mb-1">
                                 <i class="fs-5 ti ti-file-description"></i>
@@ -71,6 +71,17 @@
             </table>
         </div>
     </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+        <div class="mb-2 mb-md-0">
+            <span>Menampilkan {{ $sekolahs->firstItem() }} sampai {{ $sekolahs->lastItem() }} dari
+                {{ $sekolahs->total() }} data</span>
+        </div>
+        <div>
+            {{ $sekolahs->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
 </x-master-admin>
 
 <!-- Include SweetAlert2 -->

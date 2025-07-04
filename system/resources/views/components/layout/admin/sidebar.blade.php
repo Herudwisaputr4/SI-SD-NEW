@@ -29,7 +29,7 @@
             <span class="hide-menu">MENU</span>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('admin/tahun-ajaran') }}' aria-expanded="false">
+            <a class="sidebar-link {{ request()->is('admin/tahun-ajaran*') ? 'active' : '' }}" href='{{ url('admin/tahun-ajaran') }}' aria-expanded="false">
               <span>
                 <i class="ti ti-calendar-event"></i>
               </span>
@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('admin/guru') }}' aria-expanded="false">
+            <a class="sidebar-link {{ request()->is('admin/guru*') ? 'active' : '' }}" href='{{ url('admin/guru') }}' aria-expanded="false">
               <span>
                 <i class="ti ti-user-check"></i>
               </span>
@@ -45,7 +45,7 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('admin/siswa') }}' aria-expanded="false">
+            <a class="sidebar-link {{ request()->is('admin/siswa*') ? 'active' : '' }}" href='{{ url('admin/siswa') }}' aria-expanded="false">
               <span>
                 <i class="ti ti-user"></i>
               </span>
@@ -53,11 +53,19 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('admin/kelas') }}' aria-expanded="false">
+            <a class="sidebar-link {{ request()->is('admin/kelas*') ? 'active' : '' }}" href='{{ url('admin/kelas') }}' aria-expanded="false">
               <span>
                 <i class="ti ti-chalkboard"></i>
               </span>
               <span class="hide-menu">Kelas</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link {{ request()->is('admin/mapel*') ? 'active' : '' }}" href='{{ url('admin/mapel') }}' aria-expanded="false">
+              <span>
+                <i class="ti ti-book"></i>
+              </span>
+              <span class="hide-menu">Mapel</span>
             </a>
           </li>
         </ul>

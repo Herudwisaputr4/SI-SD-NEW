@@ -18,6 +18,7 @@
             <div class="card p-4 mb-4">
                 <div class="row">
                     <input type="text" name="sekolah_id" value="{{ Auth::guard('admin')->user()->sekolah_id }}" hidden>
+                    
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="tahun_ajar" class="form-label">Tahun Ajaran</label>

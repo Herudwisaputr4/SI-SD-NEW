@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\http\Controllers\MasterAdmin\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 // Master Admin Routes

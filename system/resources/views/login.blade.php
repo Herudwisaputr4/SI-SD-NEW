@@ -28,7 +28,7 @@
                                 <!-- Copywriting -->
                                 <div class="text-center mb-4">
                                     <h4 class="fw-bold text-primary">Selamat Datang!</h4>
-                                    <p class="text-muted small">Masuk untuk mengelola data dengan cepat dan efisien.<br>Panel admin yang cerdas untuk solusi pendidikan yang lebih baik.</p>
+                                    <p class="text-muted small">Masuk untuk mengelola data dengan cepat dan efisien.<br>Sistem Informasi yang cerdas untuk solusi pendidikan yang lebih baik.</p>
                                 </div>
 
                                 <!-- Alert -->
@@ -46,7 +46,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                 @endif
-
+ 
                                 <!-- Form -->
                                 <form action="{{ url('login') }}" method="POST">
                                     @csrf

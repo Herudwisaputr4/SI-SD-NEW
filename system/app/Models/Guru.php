@@ -38,12 +38,19 @@ class Guru extends Authenticatable
         });
     }
 
-    // Satu guru bisa menjadi wali untuk banyak kelas
-    public function sekolahs()
+    //  Relasi: Guru milik satu sekolah
+    public function sekolah()
     {
         return $this->belongsTo(Sekolah::class, 'sekolah_id');
     }
 
+    //  Relasi: Guru mengajar banyak mapel
+    public function mapels()
+    {
+        return $this->hasMany(Mapel::class, 'guru_id');
+    }
+
+    //  Relasi: Guru bisa menjadi wali dari banyak kelas
     public function kelass()
     {
         return $this->hasMany(Kelas::class, 'guru_id');

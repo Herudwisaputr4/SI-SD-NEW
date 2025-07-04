@@ -11,6 +11,7 @@
                 </ul>
             </div>
         @endif
+        
         <form action="{{ url('admin/siswa') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method("POST")
@@ -223,7 +224,7 @@
             </div>
             <div class="d-flex gap-2">
                 <a href="{{ url('admin/siswa') }}" class="btn btn-outline-secondary">
-                    <i class="ti ti-arrow-left"></i> Back
+                    <i class="ti ti-arrow-left"></i> Kembali
                 </a>
                 <button type="submit" class="btn btn-success">
                     <i class="ti ti-check"></i> Simpan Data

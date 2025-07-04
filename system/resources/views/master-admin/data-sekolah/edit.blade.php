@@ -207,25 +207,26 @@
                             <div class="mb-3 text-center">
                                 <label for="logo_sekolah" class="form-label">Logo Sekolah</label>
                                 <input type="file" name="logo_sekolah" id="logo_sekolah" class="form-control"
-                                    onchange="previewImage(event)">
+                                    onchange="previewImage(event, 'previewLogo', 'previewTextLogo')">
                                 <div class="mt-2 d-flex justify-content-center">
                                     <div>
-                                        <img id="preview" src="{{ url('public/app/data-sekolah/'.$sekolah->logo_sekolah) }}"
+                                        <img id="previewLogo" src="{{ url('public/app/data-sekolah/'.$sekolah->logo_sekolah) }}"
                                             alt="Preview Logo Sekolah" class="img-fluid rounded" style="max-width: 120px;">
-                                        <p id="previewText" style="display: none;">Preview logo akan muncul di sini.</p>
+                                        <p id="previewTextLogo" style="display: none;">Preview logo akan muncul di sini.</p>
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Foto Sekolah -->
                             <div class="mb-3 text-center">
                                 <label for="foto_sekolah" class="form-label">Foto Sekolah</label>
                                 <input type="file" name="foto_sekolah" id="foto_sekolah" class="form-control"
-                                    onchange="previewImage(event)">
+                                    onchange="previewImage(event, 'previewFoto', 'previewTextFoto')">
                                 <div class="mt-2 d-flex justify-content-center">
                                     <div>
-                                        <img id="preview" src="{{ url('public/app/data-sekolah/'.$sekolah->foto_sekolah) }}"
+                                        <img id="previewFoto" src="{{ url('public/app/data-sekolah/'.$sekolah->foto_sekolah) }}"
                                             alt="Preview Foto Sekolah" class="img-fluid rounded" style="max-width: 180px;">
-                                        <p id="previewText" style="display: none;">Preview foto akan muncul di sini.</p>
+                                        <p id="previewTextFoto" style="display: none;">Preview foto akan muncul di sini.</p>
                                     </div>
                                 </div>
                             </div>
@@ -245,22 +246,26 @@
     </div>
 
     <script>
-        function previewImage(event) {
-            const preview = document.getElementById('preview');
-            const previewText = document.getElementById('previewText');
-            const file = event.target.files[0];
-            if (file) {
+        function previewImage(event, imageId, textId) {
+            const input = event.target;
+            const preview = document.getElementById(imageId);
+            const previewText = document.getElementById(textId);
+
+            if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function() {
-                    preview.src = reader.result;
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
                     previewText.style.display = 'none';
                 }
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(input.files[0]);
             } else {
+                preview.style.display = 'none';
                 previewText.style.display = 'block';
             }
         }
     </script>
+
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

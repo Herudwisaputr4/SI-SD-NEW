@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin\Siswa;
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use App\Exports\SiswaExport;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class SiswaController extends Controller
 {
@@ -112,10 +114,23 @@ class SiswaController extends Controller
         return redirect('admin/siswa')->with('success', 'Data Siswa berhasil ditambahkan.');
     }
 
+    private function formatTanggal($value) {
+        if (is_numeric($value)) {
+            return Date::excelToDateTimeObject($value)->format('Y-m-d');
+        }
+
+        try {
+            return Carbon::parse($value)->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
     public function import(Request $request)
     {
+
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+            'file' => 'required|mimes:xlsx,xls,csv'
         ]);
 
         $file = $request->file('file');
@@ -123,49 +138,63 @@ class SiswaController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $rows = $sheet->toArray();
 
-        $admin = Auth::guard('admin')->user(); // ambil sekolah_id dari admin
-
         foreach ($rows as $index => $row) {
-            if ($index == 0) continue; // header
+            if ($index == 0) continue;
+            $data = array_slice($row, 1);
 
-            // Validasi jenis_kelamin
-            $jenis_kelamin = strtolower(trim($row[11])) == 'laki-laki' ? 'Laki-laki' : 'Perempuan';
+            $jenis_kelamin = null;
+            // Validasi jenis kelamin
+            if (isset($row[11])) {
+                $value = strtolower(trim($row[11]));
+                if ($value === 'laki-laki' || $value === 'l') {
+                    $jenis_kelamin = 'Laki-Laki';
+                } elseif ($value === 'perempuan' || $value === 'p') {
+                    $jenis_kelamin = 'Perempuan';
+                }
+            }
 
-            // Validasi agama
-            $agama = in_array($row[12], ['Islam', 'Katolik', 'Protestan', 'Hindu', 'Buddha', 'Khonghucu']) ? $row[12] : 'Islam';
+            if (is_null($jenis_kelamin)) {
+                continue;
+            }
 
-            Siswa::create([
-                'sekolah_id'         => $admin->sekolah_id,
-                'nisn'               => $row[0],
-                'nis'                => $row[1],
-                'nama_siswa'         => $row[2],
-                'jalur_pendaftaran'  => in_array($row[3], ['Zonasi', 'Afirmasi', 'Perpindahan Orang Tua', 'Prestasi', 'Mandiri']) ? $row[3] : 'Zonasi',
-                'jenis_pendaftaran'  => $row[4] == 'Peserta Didik Baru' ? 'Peserta Didik Baru' : 'Pindahan',
-                'tanggal_masuk'      => $row[5],
-                'status'             => $row[6] == 'Aktif' ? 'Aktif' : 'Tidak Aktif',
-                'kebutuhan_khusus'   => $row[7] == 'Iya' ? 'Iya' : 'Tidak',
-                'email'              => $row[8],
-                'no_kk'              => $row[9],
-                'nik'                => $row[10],
-                'jenis_kelamin'      => $jenis_kelamin,
-                'agama'              => $agama,
-                'tempat_lahir'       => $row[13],
-                'tanggal_lahir'      => $row[14],
-                'alamat'             => $row[15],
-                'rt'                 => $row[16],
-                'rw'                 => $row[17],
-                'dusun'              => $row[18],
-                'desa_kelurahan'     => $row[19],
-                'provinsi'           => $row[20],
-                'kabupaten'          => $row[21],
-                'kecamatan'          => $row[22],
-                'telepon'            => $row[23],
-                'password'           => bcrypt($row[24]),
-                'foto_siswa'         => $row[25] ?? null, // Kosongkan jika tidak ada
+            $existing = Siswa::where('nisn', $row[0])->first();
+            if ($existing) {
+                continue;
+            }
+
+            $siswa = Siswa::create([
+                'sekolah_id' => auth('admin')->user()->sekolah_id,
+                'nisn' => $row[0],
+                'nis' => $row[1],
+                'nama_siswa' => $row[2],
+                'jalur_pendaftaran' => in_array($row[3], ['Zonasi', 'Afirmasi', 'Perpindahan Orang Tua', 'Prestasi', 'Mandiri']) ? $row[4] : 'Zonasi',
+                'jenis_pendaftaran' => $row[4] == 'Peserta Didik Baru' ? 'Peserta Didik Baru' : 'Pindahan',
+                'tanggal_masuk' => $this->formatTanggal($row[5]),
+                'status' => $row[6] == 'Aktif' ? 'Aktif' : 'Tidak Aktif',
+                'kebutuhan_khusus' => $row[7] == 'Iya' ? 'Iya' : 'Tidak',
+                'email' => $row[8],
+                'no_kk' => $row[9],
+                'nik' => $row[10],
+                'jenis_kelamin' => $jenis_kelamin,
+                'agama' => in_array($row[12], ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu']) ? $row[12] : 'Islam',
+                'tanggal_lahir' => $this->formatTanggal($row[13]),
+                'tempat_lahir' => $row[14],
+                'alamat' => $row[15],
+                'rt' => $row[16],
+                'rw' => $row[17],
+                'dusun' => $row[18],
+                'desa_kelurahan' => $row[19],
+                'provinsi' => $row[20],
+                'kabupaten' => $row[21],
+                'kecamatan' => $row[22],
+                'telepon' => $row[23],
+                'password' => isset($row[24]) ? bcrypt($row[24]) : null,
+                'foto_siswa' => isset($row[25]) && !empty($row[25]) ? $row[25] : 'belum ada foto',
             ]);
         }
 
-        return redirect()->back()->with('success', 'Data siswa berhasil diimpor.');
+
+        return redirect('admin/siswa')->with('success', 'Data siswa berhasil diimport!');
     }
 
     public function export()

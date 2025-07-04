@@ -40,9 +40,6 @@
             </div>
         </div>  
         <!-- Form Search -->
-        <div class="mt-3">
-            {{ $gurus->links() }}
-        </div>
         <div class="mb-3">
             <form method="GET" action="{{ url('admin/guru') }}" id="searchForm">
                 <div class="input-group">
@@ -97,6 +94,17 @@
             </table>
         </div>
     </div>
+    
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+        <div class="mb-2 mb-md-0">
+            <span>Menampilkan {{ $gurus->firstItem() }} sampai {{ $gurus->lastItem() }} dari
+                {{ $gurus->total() }} data</span>
+        </div>
+        <div>
+            {{ $gurus->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
 </x-admin>
 
 <!-- Include SweetAlert2 -->

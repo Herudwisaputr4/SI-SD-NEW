@@ -23,12 +23,12 @@
                             <label for="tingkatan" class="form-label">Tingkatan</label>
                             <select name="tingkatan" id="tingkatan" class="form-control @error('tingkatan') is-invalid @enderror" required>
                                 <option value="" disabled selected>Pilih Tingkatan</option>
-                                <option value="1" {{ old('tingkatan') == '1' ? 'selected' : '' }}>1</option>
-                                <option value="2" {{ old('tingkatan') == '2' ? 'selected' : '' }}>2</option>
-                                <option value="3" {{ old('tingkatan') == '3' ? 'selected' : '' }}>3</option>
-                                <option value="4" {{ old('tingkatan') == '4' ? 'selected' : '' }}>4</option>
-                                <option value="5" {{ old('tingkatan') == '5' ? 'selected' : '' }}>5</option>
-                                <option value="6" {{ old('tingkatan') == '6' ? 'selected' : '' }}>6</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
                             @error('tingkatan')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -38,29 +38,49 @@
                         {{-- Nama Kelas --}}
                         <div class="col-md-6 mb-3">
                             <label for="nama_kelas" class="form-label">Nama Kelas</label>
-                            <input type="text" name="nama_kelas" id="nama_kelas" class="form-control @error('nama_kelas') is-invalid @enderror" value="{{ old('nama_kelas') }}" required>
+                            <select name="nama_kelas" id="nama_kelas" class="form-control @error('nama_kelas') is-invalid @enderror" required>
+                                <option value="" disabled selected>Pilih Nama Kelas</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                            </select>
                             @error('nama_kelas')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        {{-- Pilih Siswa --}}
+                        <div class="col-md-6 mb-3">
+                            <label for="siswa_id" class="form-label">Pilih Siswa</label>
+                            <select name="siswa_id[]" id="siswa_id" class="form-select select2-siswa @error('siswa_id') is-invalid @enderror" multiple required>
+                                @foreach ($siswas as $siswa)
+                                    <option value="{{ $siswa->id }}" {{ collect(old('siswa_id'))->contains($siswa->id) ? 'selected' : '' }}>
+                                        {{ $siswa->nama_siswa }} - {{ $siswa->nisn }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('siswa_id')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="col-md-6 mb-3">
                             <label for="guru_id" class="form-label">Wali Kelas</label>
-                            <select name="guru_id" id="guru_id" class="form-control @error('guru_id') is-invalid @enderror" required>
-                                <option value="" disabled {{ old('guru_id', $kelas->guru_id ?? '') == '' ? 'selected' : '' }}>
+                             <select name="guru_id" id="guru_id" class="form-select @error('guru_id') is-invalid @enderror" required>
+                                <option value="" disabled selected hidden>Pilih Guru</option>
                                     Pilih Wali Kelas
                                 </option>
                                 @foreach ($gurus as $guru)
-                                    <option value="{{ $guru->id }}" {{ old('guru_id', $kelas->guru_id ?? '') == $guru->id ? 'selected' : '' }}>
-                                        {{ $guru->nama ?? $guru->username }}
-                                    </option>
+                                    <option value="{{ $guru->id }}">{{ $guru->username }} ({{ $guru->nip }})</option>
                                 @endforeach
                             </select>
                             @error('guru_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
 
                         {{-- Tahun Ajaran --}}
                         <div class="col-md-6 mb-3">
@@ -90,4 +110,22 @@
             </div>
         </form>
     </div>
+
+    @push('scripts')
+    <!-- Select2 CSS dan JS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- Aktifkan Select2 -->
+        <script>
+            $(document).ready(function() {
+                $('.select2-siswa').select2({
+                    placeholder: "Cari & pilih siswa...",
+                    width: '100%',
+                    allowClear: true
+                });
+            });
+        </script>
+    @endpush
+
 </x-admin>

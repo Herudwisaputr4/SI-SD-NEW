@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin\Guru;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\GuruExport;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class GuruController extends Controller
 {
@@ -93,54 +95,73 @@ class GuruController extends Controller
         return redirect('admin/guru')->with('success', 'Data guru berhasil ditambahkan.');
     }
 
+    private function formatTanggal($value) {
+        if (is_numeric($value)) {
+            return Date::excelToDateTimeObject($value)->format('Y-m-d');
+        }
+
+        try {
+            return Carbon::parse($value)->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+            'file' => 'required|mimes:xlsx,xls,csv'
         ]);
 
-        $admin = Auth::guard('admin')->user();
         $file = $request->file('file');
         $spreadsheet = IOFactory::load($file->getPathname());
         $sheet = $spreadsheet->getActiveSheet();
         $rows = $sheet->toArray();
 
         foreach ($rows as $index => $row) {
-            if ($index == 0) continue; // skip header
+            if ($index == 0) continue;
+            $data = array_slice($row, 1);
 
-            if (!is_numeric($row[1])) {
-                return redirect()->back()->with('error', 'NIP harus berupa angka pada baris ' . ($index + 1));
+             $jenis_kelamin = null;
+            // Validasi jenis kelamin
+                        if (isset($row[11])) {
+                $value = strtolower(trim($row[11]));
+                if ($value === 'laki-laki' || $value === 'l') {
+                    $jenis_kelamin = 'Laki-Laki';
+                } elseif ($value === 'perempuan' || $value === 'p') {
+                    $jenis_kelamin = 'Perempuan';
+                }
+            }
+            
+            if (is_null($jenis_kelamin)) {
+                continue;
             }
 
-            if (!is_numeric($row[8])) {
-                return redirect()->back()->with('error', 'No telepon harus berupa angka pada baris ' . ($index + 1));
+            $existing = Guru::where('nisn', $row[0])->first();
+            if ($existing) {
+                continue;
             }
 
-            if (!filter_var($row[9], FILTER_VALIDATE_EMAIL)) {
-                return redirect()->back()->with('error', 'Email tidak valid pada baris ' . ($index + 1));
-            }
-
-            $serialDate = (int)$row[5];
-            $tanggalLahir = date('Y-m-d', strtotime('1899-12-30 + ' . $serialDate . ' days'));
-
-            Guru::create([
-                'sekolah_id'          => $admin->sekolah_id,
-                'username'            => $row[0],
-                'nip'                 => $row[1],
-                'jenis_kelamin'       => in_array($row[2], ['Laki-Laki', 'Perempuan']) ? $row[2] : 'Laki-Laki',
-                'agama'               => in_array($row[3], ['Islam', 'Kristen', 'Katolik', 'Buddha', 'Hindu', 'Konghuchu']) ? $row[3] : 'Islam',
-                'tempat_lahir'        => $row[4],
-                'tanggal_lahir'       => $tanggalLahir,
-                'alamat'              => $row[6],
-                'status'              => in_array($row[7], ['Aktif', 'Tidak Aktif']) ? $row[7] : 'Aktif',
-                'no_telepon'          => $row[8],
-                'email'               => $row[9],
-                'jabatan'             => in_array($row[10], ['Guru Produktif','Waka Kurikulum','Waka Kesiswaan','Sarpras','Bimbingan Konseling','Kepala Sekolah']) ? $row[10] : 'Guru Produktif',
-                'pendidikan_terakhir' => in_array($row[11], ['Diploma','Sarjana','Magister','Doktor']) ? $row[11] : 'Sarjana',
-                'tahun_masuk'         => is_numeric($row[12]) ? $row[12] : now()->year,
-                'password'            => bcrypt($row[13]),
-                'foto_profil'         => $row[14] ?? null,
+            $guru = Guru::create([
+                'sekolah_id' => auth('admin')->user()->sekolah_id,
+                'username' => $row[0],
+                'nip' => $row[1],
+                'nama_guru' => $row[2],
+                'jenis_kelamin' => in_array($row[3], ['Laki-Laki', 'Perempuan']) ? $row[3] : 'Laki-Laki',
+                'agama' => in_array($row[4], ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu']) ? $row[4] : 'Islam',
+                'tempat_lahir' => $row[5],
+                'tanggal_lahir' => $this->formatTanggal($row[6]),
+                'alamat' => $row[7],
+                'telepon' => $row[8],
+                'email' => $row[9],
+                'status' => $row[10] == 'Aktif' ? 'Aktif' : 'Tidak Aktif',
+                'jabatan' => in_array($row[11], [ 'Guru Produktif','Waka Kurikulum','Waka Kesiswaan','Sarpras','Bimbingan Konseling','Kepala Sekolah']) ? $row[11] : 'Guru Produktif',
+                'pendidikan_terakhir' => in_array($row[12], ['Diploma','Sarjana','Magister','Doktor']) ? $row[12] : 'Sarjana',
+                'tahun_masuk' => is_numeric($row[13]) ? $row[13] : now()->year,
+                'password' => isset($row[14]) ? bcrypt($row[14]) : null,
+                'foto_profil' => isset($row[15]) && !empty($row[15]) ? $row[15] : 'belum ada foto',
             ]);
+
         }
 
         return redirect('admin/guru')->with('success', 'Data guru berhasil diimpor.');

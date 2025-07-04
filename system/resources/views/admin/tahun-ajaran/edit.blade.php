@@ -92,7 +92,7 @@
         </form>
         <!-- Tombol Di Luar Form -->
         <div class="d-flex gap-2">
-            <a href="{{ url('admin/siswa') }}" class="btn btn-outline-secondary">
+            <a href="{{ url('admin/tahun-ajaran') }}" class="btn btn-outline-secondary">
                 <i class="ti ti-arrow-left"></i> Back
             </a>
             <button type="button" class="btn btn-success" id="btnUpdate">

@@ -41,9 +41,6 @@
             </div>
         </div>    
         <!-- Form Search -->
-        <div class="mt-3">
-            {{ $siswas->links() }}
-        </div>
         <div class="mb-3">
             <form method="GET" action="{{ url('admin/siswa') }}" id="searchForm">
                 <div class="input-group">
@@ -101,6 +98,17 @@
             </table>
         </div>
     </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+        <div class="mb-2 mb-md-0">
+            <span>Menampilkan {{ $siswas->firstItem() }} sampai {{ $siswas->lastItem() }} dari
+                {{ $siswas->total() }} data</span>
+        </div>
+        <div>
+            {{ $siswas->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
 </x-admin>
 
 <!-- Include SweetAlert2 -->

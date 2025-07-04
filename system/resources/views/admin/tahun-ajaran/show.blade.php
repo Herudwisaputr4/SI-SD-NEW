@@ -52,7 +52,7 @@
             <a href="{{ url('admin/tahun-ajaran') }}" class="btn btn-outline-secondary">
                 <i class="ti ti-arrow-left"></i> Kembali
             </a>
-            <a href="{{ url('admin/tahun-ajaran/'.$tahunajaran->id.'/edit') }}" class="btn btn-warning">
+            <a href="{{ url('admin/tahun-ajaran/edit'.$tahunajaran->id.'/edit') }}" class="btn btn-warning">
                 <i class="ti ti-pencil"></i> Edit Data
             </a>
         </div>

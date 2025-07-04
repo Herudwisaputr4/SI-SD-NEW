@@ -79,9 +79,18 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="mt-3">{{ $tahun_ajarans->links() }}</div>
     </div>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+        <div class="mb-2 mb-md-0">
+            <span>Menampilkan {{ $tahun_ajarans->firstItem() }} sampai {{ $tahun_ajarans->lastItem() }} dari
+                {{ $tahun_ajarans->total() }} data</span>
+        </div>
+        <div>
+            {{ $tahun_ajarans->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
 </x-admin>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

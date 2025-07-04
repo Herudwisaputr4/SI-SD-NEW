@@ -29,19 +29,19 @@
             <span class="hide-menu">MENU</span>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href='{{ url('master-admin/data-admin') }}' aria-expanded="false">
-              <span>
-                <i class="ti ti-user"></i>
-              </span>
-              <span class="hide-menu">Data Admin</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
             <a class="sidebar-link" href='{{ url('master-admin/data-sekolah') }}' aria-expanded="false">
               <span>
                 <i class="ti ti-home"></i>
               </span>
               <span class="hide-menu">Data Sekolah</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href='{{ url('master-admin/data-admin') }}' aria-expanded="false">
+              <span>
+                <i class="ti ti-user"></i>
+              </span>
+              <span class="hide-menu">Data Admin</span>
             </a>
           </li>
         </ul>
